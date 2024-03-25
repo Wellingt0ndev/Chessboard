@@ -8,23 +8,11 @@ namespace Chess_console
     {
         static void Main(string[] args)
         {
-            try { 
-            ChessBoard board = new ChessBoard(8,8);
+            ChessPosition pos = new ChessPosition('a', 1);
 
-           
-            board.MovePiece(new Tower(board, Color.Black), new Position(0, 0));
-            board.MovePiece(new Tower(board, Color.Black), new Position(1, 9));
-            board.MovePiece(new King(board, Color.Black), new Position(2, 4));
+            Console.WriteLine(pos);
 
-            Screen.PrintChessBoard(board);          
-            
-            }
-            catch (BoardException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-             
+            Console.WriteLine(pos.ToPosition());
         }
     }
 }
