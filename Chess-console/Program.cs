@@ -1,5 +1,5 @@
-﻿using Chess_console.Board;
-using Chess;
+﻿using Chess;
+using Board;
 
 
 namespace Chess_console
@@ -8,14 +8,21 @@ namespace Chess_console
     {
         static void Main(string[] args)
         {
+            try { 
             ChessBoard board = new ChessBoard(8,8);
 
            
             board.MovePiece(new Tower(board, Color.Black), new Position(0, 0));
-            board.MovePiece(new Tower(board, Color.Black), new Position(1, 3));
+            board.MovePiece(new Tower(board, Color.Black), new Position(1, 9));
             board.MovePiece(new King(board, Color.Black), new Position(2, 4));
 
-            Screen.PrintChessBoard(board);
+            Screen.PrintChessBoard(board);          
+            
+            }
+            catch (BoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
              
         }

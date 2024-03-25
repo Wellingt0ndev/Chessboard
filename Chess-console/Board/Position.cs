@@ -1,4 +1,4 @@
-﻿namespace Chess_console.Board
+﻿namespace Board
 {
     public class Position
     {

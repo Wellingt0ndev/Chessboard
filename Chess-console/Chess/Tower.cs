@@ -1,4 +1,5 @@
-﻿using Chess_console.Board;
+﻿using Board;
+
 
 namespace Chess
 {
