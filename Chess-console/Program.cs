@@ -9,15 +9,21 @@ namespace Chess_console
         static void Main(string[] args)
         {
             try
-            {
-                ChessBoard chessBoard = new ChessBoard(8, 8);
+            {         
+                ChessMatch match = new ChessMatch();
+                while(!match.Finished)
+                {
+                    Console.Clear();
+                    Screen.PrintChessBoard(match.Board);
+                    Console.WriteLine(match);
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadChessPosition().ToPosition();
+                    Console.Write("Destiny: ");
+                    Position destiny = Screen.ReadChessPosition().ToPosition();
 
-                chessBoard.MovePiece(new Tower(chessBoard, Color.Black), new Position(0, 0));
-                chessBoard.MovePiece(new Tower(chessBoard, Color.Black), new Position(1, 3));
-                chessBoard.MovePiece(new Tower(chessBoard, Color.White), new Position(3, 5));
-                chessBoard.MovePiece(new King(chessBoard, Color.Black), new Position(0, 2));
+                    match.ExecuteTheMoviment(origin, destiny);
 
-                Screen.PrintChessBoard(chessBoard);
+                }                
             }
             catch(BoardException  e)
             {

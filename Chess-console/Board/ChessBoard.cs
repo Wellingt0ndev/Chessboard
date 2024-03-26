@@ -2,13 +2,13 @@
 
 namespace Board
 {
-    public class ChessBoard
+    public class Chessboard
     {
         public int Line { get; set; }
         public int Column { get; set; }
         private Piece[,] Pieces;
         
-        public ChessBoard(int line, int column)
+        public Chessboard(int line, int column)
         {
             Line = line;
             Column = column;
@@ -38,6 +38,18 @@ namespace Board
             }
             Pieces[position.Line, position.Column] = piece;
             piece.Position = position;
+        }
+
+        public Piece RemovePiece(Position position)
+        {
+            if(Piece(position) == null)
+            {
+                return null;
+            }
+            Piece aux = Piece(position);
+            aux.Position = null;
+            Pieces[position.Line, position.Column] = null;
+            return aux;
         }
 
         public bool ValidPosition(Position pos)

@@ -5,7 +5,7 @@ namespace Chess
 {
     public class Tower : Piece
     {
-        public Tower(ChessBoard board, Color color) : base(board, color)
+        public Tower(Chessboard board, Color color) : base(board, color)
         {
         }
 

@@ -5,7 +5,7 @@ namespace Chess
 {
     public class King : Piece
     {
-        public King(ChessBoard board, Color color) : base( board, color)
+        public King(Chessboard board, Color color) : base( board, color)
         {
         }
 
