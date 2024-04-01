@@ -1,5 +1,4 @@
 ﻿using Board;
-using System.Runtime.ConstrainedExecution;
 
 namespace Chess
 {
@@ -35,9 +34,13 @@ namespace Chess
             p.IncreaseMovements();
             Piece capturedPiece =  Board.RemovePiece(destiny);
             Board.MovePiece(p, destiny);
+            if(capturedPiece != null)
+            {
+                Captured.Add(capturedPiece);
+            }
         }
 
-        public void MakesPlays(Position origin, Position destiny)
+        public void MakePlay(Position origin, Position destiny)
         {
             ExecuteTheMoviment(origin, destiny);
             Turn++;
@@ -77,6 +80,33 @@ namespace Chess
             {
                 CurrentPlayer = Color.White;
             }
+        }
+
+        public HashSet<Piece> CapturedPieces(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach(Piece x in Captured)
+            {
+                if(x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            return aux;
+        }
+
+        public HashSet<Piece> PiecesInPlay(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece x in Pieces)
+            {
+                if (x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            aux.ExceptWith(CapturedPieces(color));
+            return aux;
         }
 
         public void PutNewPiece(char coluna, int linha, Piece piece)

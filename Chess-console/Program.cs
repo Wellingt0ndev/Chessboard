@@ -1,7 +1,6 @@
 ﻿using Chess;
 using Board;
 
-
 namespace Chess_console
 {
     internal class Program
@@ -16,10 +15,7 @@ namespace Chess_console
                     try
                     {
                         Console.Clear();
-                        Screen.PrintChessBoard(match.Board);
-                        Console.WriteLine();
-                        Console.WriteLine("Turn: " + match.Turn);
-                        Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+                        Screen.PrintMatch(match);
                         Console.Write("Origin: ");
                         Position origin = Screen.ReadChessPosition().ToPosition();
                         match.ValidateOriginPosition(origin);
@@ -34,7 +30,7 @@ namespace Chess_console
                         match.ValidateDestinyPosition(origin, destiny);
 
 
-                        match.MakesPlays(origin, destiny);
+                        match.MakePlay(origin, destiny);
                     }
                     catch (BoardException e)
                     {

@@ -1,5 +1,6 @@
 ﻿using Board;
 using Chess;
+using System.Text.RegularExpressions;
 
 namespace Chess_console
 {
@@ -75,5 +76,38 @@ namespace Chess_console
                 Console.Write(" ");
             }
         }
+
+        public static void PrintMatch(ChessMatch match)
+        {
+            PrintChessBoard(match.Board);
+            Console.WriteLine();
+            PrintsCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + match.Turn);
+            Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+            Console.WriteLine();
+        }
+
+        private static void PrintsCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Captured pieces:");
+            Console.Write("White: ");
+            PrintSet(match.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Black: ");
+            PrintSet(match.CapturedPieces(Color.Black));
+            Console.WriteLine();
+        }
+
+        public static void PrintSet(HashSet<Piece> set)
+        {
+            Console.Write("[");
+            foreach (Piece x in set) 
+            { 
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
+        
     }
 }
