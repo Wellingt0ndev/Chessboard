@@ -37,6 +37,48 @@ namespace Chess
             Board.MovePiece(p, destiny);
         }
 
+        public void MakesPlays(Position origin, Position destiny)
+        {
+            ExecuteTheMoviment(origin, destiny);
+            Turn++;
+            PlayerChanges();
+        }
+
+        public void ValidateOriginPosition(Position position)
+        {
+            if(Board.Piece(position) == null)
+            {
+                throw new BoardException("There is no part in the chosen origin position!");
+            }if(CurrentPlayer != Board.Piece(position).Color)
+            {
+                throw new BoardException("The origin piece chosen is not yours!");
+            }
+            if(!Board.Piece(position).AreTherePossibleMoves())
+            {
+                throw new BoardException("There are no possible moves for the chosen origin piece!");
+            }
+        }
+
+        public void ValidateDestinyPosition(Position origin, Position destiny)
+        {
+            if (!Board.Piece(origin).CanMoveTo(destiny))
+            {
+                throw new BoardException("Destination position invalid!");
+            }
+        }
+
+        private void PlayerChanges()
+        {
+            if(CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
+        }
+
         public void PutNewPiece(char coluna, int linha, Piece piece)
         {
             Board.MovePiece(piece, new ChessPosition(coluna, linha).ToPosition());
