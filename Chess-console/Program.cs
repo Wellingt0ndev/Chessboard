@@ -15,14 +15,19 @@ namespace Chess_console
                 {
                     Console.Clear();
                     Screen.PrintChessBoard(match.Board);
-                    Console.WriteLine(match);
+                    Console.WriteLine();
                     Console.Write("Origin: ");
                     Position origin = Screen.ReadChessPosition().ToPosition();
+
+                    bool[,] possiblePosition = match.Board.Piece(origin).PossibleMovements();
+
+                    Console.Clear();
+                    Screen.PrintChessBoard(match.Board, possiblePosition);
+
                     Console.Write("Destiny: ");
                     Position destiny = Screen.ReadChessPosition().ToPosition();
 
                     match.ExecuteTheMoviment(origin, destiny);
-
                 }                
             }
             catch(BoardException  e)

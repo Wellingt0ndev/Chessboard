@@ -6,8 +6,9 @@ namespace Chess
     {
         private ChessMatch match;
 
-        public Pawn(Chessboard board, Color color) : base(board, color)
+        public Pawn(Chessboard board, Color color, ChessMatch match) : base(board, color)
         {
+            this.match = match;
         }
         public override string ToString()
         {

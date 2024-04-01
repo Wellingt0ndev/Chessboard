@@ -9,8 +9,9 @@ namespace Chess
 
         private ChessMatch match;
 
-        public King(Chessboard board, Color color) : base(board, color)
+        public King(Chessboard board, Color color, ChessMatch match) : base(board, color)
         {
+            this.match = match;
         }
         
 
