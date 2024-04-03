@@ -85,6 +85,8 @@ namespace Chess_console
             Console.WriteLine();
             Console.WriteLine("Turn: " + match.Turn);
             Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+            if (match.Check)
+                Console.WriteLine("Check");
             Console.WriteLine();
         }
 
@@ -95,8 +97,10 @@ namespace Chess_console
             PrintSet(match.CapturedPieces(Color.White));
             Console.WriteLine();
             Console.Write("Black: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             PrintSet(match.CapturedPieces(Color.Black));
-            Console.WriteLine();
+            Console.ForegroundColor = aux;            
         }
 
         public static void PrintSet(HashSet<Piece> set)

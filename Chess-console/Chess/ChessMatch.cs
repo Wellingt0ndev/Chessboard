@@ -27,8 +27,7 @@ namespace Chess
             AddPieces();
         }
 
-
-        public void ExecuteTheMoviment(Position origin, Position destiny)
+        public Piece ExecuteTheMoviment(Position origin, Position destiny)
         {
             Piece p = Board.RemovePiece(origin);
             p.IncreaseMovements();
@@ -38,11 +37,37 @@ namespace Chess
             {
                 Captured.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+
+        public void UndoTheMovement(Position origin, Position destiny, Piece capturedPiece)
+        {
+            Piece p = Board.RemovePiece(destiny);
+            p.DecreaseMovements();
+            if(capturedPiece != null)
+            {
+                Board.MovePiece(capturedPiece, destiny);
+                Captured.Remove(capturedPiece);
+            }
+            Board.MovePiece(p, destiny);
         }
 
         public void MakePlay(Position origin, Position destiny)
         {
-            ExecuteTheMoviment(origin, destiny);
+            Piece capturedPiece = ExecuteTheMoviment(origin, destiny);
+            if (IsItCheck(CurrentPlayer))
+            {
+                UndoTheMovement(origin,destiny,capturedPiece);
+                throw new BoardException("You can't put yourself in check");
+            }
+            if(IsItCheck(Opponent(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
             Turn++;
             PlayerChanges();
         }
@@ -107,6 +132,44 @@ namespace Chess
             }
             aux.ExceptWith(CapturedPieces(color));
             return aux;
+        }
+
+        private Color Opponent(Color color)
+        {
+            if(color == Color.White)
+                return Color.Black;
+            else
+                return Color.White;
+        }
+
+        private Piece KingPiece(Color color)
+        {
+            foreach (Piece x in PiecesInPlay(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsItCheck(Color color)
+        {
+            Piece k = KingPiece(color);
+            if(k == null)
+            {
+                throw new BoardException("There is no " + color + " king on the board");
+            }
+            foreach(Piece x in PiecesInPlay(Opponent(color)))
+            {
+                bool[,] mat = x.PossibleMovements();
+                if(mat[k.Position.Line, k.Position.Column])
+                {
+                    return true;                }
+
+            }
+            return false;
         }
 
         public void PutNewPiece(char coluna, int linha, Piece piece)
