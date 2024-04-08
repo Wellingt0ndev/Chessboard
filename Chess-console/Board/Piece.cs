@@ -48,7 +48,7 @@ namespace Board
             return p == null || p.Color != Color;
         }
 
-        public bool CanMoveTo(Position position)
+        public bool PossibleMoviment(Position position)
         {
             return PossibleMovements()[position.Line, position.Column];
         }

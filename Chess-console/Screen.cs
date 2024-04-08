@@ -6,6 +6,49 @@ namespace Chess_console
 {
     public class Screen
     {
+        public static void PrintMatch(ChessMatch match)
+        {
+            PrintChessBoard(match.Board);
+            Console.WriteLine();
+            PrintsCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + match.Turn);
+            if (!match.Finished)
+            {
+                Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
+                if (match.Check)
+                    Console.WriteLine("Check");
+            }
+            else
+            {
+                Console.WriteLine("Checkmate");
+                Console.WriteLine("Winner: " + match.CurrentPlayer);
+            }            
+        }
+
+        private static void PrintsCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Captured pieces:");
+            Console.Write("White: ");
+            PrintSet(match.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Black: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            PrintSet(match.CapturedPieces(Color.Black));
+            Console.ForegroundColor = aux;     
+            Console.WriteLine();
+        }
+        public static void PrintSet(HashSet<Piece> set)
+        {
+            Console.Write("[");
+            foreach (Piece x in set) 
+            { 
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
+
         public static void PrintChessBoard(Chessboard board)
         {
             for (int i = 0; i < board.Line; i++)
@@ -54,6 +97,7 @@ namespace Chess_console
             int line = int.Parse(s[1] + "");
             return new ChessPosition(column, line);
         }
+
         public static void PrintPiece(Piece piece)
         {
             if (piece == null)
@@ -75,43 +119,6 @@ namespace Chess_console
                 }
                 Console.Write(" ");
             }
-        }
-
-        public static void PrintMatch(ChessMatch match)
-        {
-            PrintChessBoard(match.Board);
-            Console.WriteLine();
-            PrintsCapturedPieces(match);
-            Console.WriteLine();
-            Console.WriteLine("Turn: " + match.Turn);
-            Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
-            if (match.Check)
-                Console.WriteLine("Check");
-            Console.WriteLine();
-        }
-
-        private static void PrintsCapturedPieces(ChessMatch match)
-        {
-            Console.WriteLine("Captured pieces:");
-            Console.Write("White: ");
-            PrintSet(match.CapturedPieces(Color.White));
-            Console.WriteLine();
-            Console.Write("Black: ");
-            ConsoleColor aux = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            PrintSet(match.CapturedPieces(Color.Black));
-            Console.ForegroundColor = aux;            
-        }
-
-        public static void PrintSet(HashSet<Piece> set)
-        {
-            Console.Write("[");
-            foreach (Piece x in set) 
-            { 
-                Console.Write(x + " ");
-            }
-            Console.Write("]");
-        }
-        
+        }               
     }
 }

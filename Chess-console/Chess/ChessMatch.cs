@@ -1,5 +1,6 @@
 ﻿using Board;
 
+
 namespace Chess
 {
     public class ChessMatch
@@ -37,6 +38,44 @@ namespace Chess
             {
                 Captured.Add(capturedPiece);
             }
+            // #Special move Castle Kingside
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+                Piece T = Board.RemovePiece(originT);
+                T.IncreaseMovements();
+                Board.MovePiece(T, destinyT);
+            }
+
+            // #Special move Castle Queenside
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+                Piece T = Board.RemovePiece(originT);
+                T.IncreaseMovements();
+                Board.MovePiece(T, destinyT);
+            }
+
+            // #Special move en passant
+            if (p is Pawn)
+            {
+                if (origin.Column != destiny.Column && capturedPiece == null)
+                {
+                    Position posP;
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(destiny.Line + 1, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destiny.Line - 1, destiny.Column);
+                    }
+                    capturedPiece = Board.RemovePiece(posP);
+                    Captured.Add(capturedPiece);
+                }
+            }
             return capturedPiece;
         }
 
@@ -50,7 +89,45 @@ namespace Chess
                 Captured.Remove(capturedPiece);
             }
             Board.MovePiece(p, destiny);
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column + 3);
+                Position destinyT = new Position(origin.Line, origin.Column + 1);
+                Piece T = Board.RemovePiece(destinyT);
+                T.DecreaseMovements();
+                Board.MovePiece(T, originT);
+            }
+
+            // #jogadaespecial roque grande
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Column - 4);
+                Position destinyT = new Position(origin.Line, origin.Column - 1);
+                Piece T = Board.RemovePiece(destinyT);
+                T.DecreaseMovements();
+                Board.MovePiece(T, originT);
+            }
+
+            // #jogadaespecial en passant
+            if (p is Pawn)
+            {
+                if (origin.Column != destiny.Column && capturedPiece == EnPassant)
+                {
+                    Piece Pawn = Board.RemovePiece(destiny);
+                    Position posP;
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(3, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(4, destiny.Column);
+                    }
+                    Board.MovePiece(Pawn, posP);
+                }
+            }
         }
+    
 
         public void MakePlay(Position origin, Position destiny)
         {
@@ -60,13 +137,31 @@ namespace Chess
                 UndoTheMovement(origin,destiny,capturedPiece);
                 throw new BoardException("You can't put yourself in check");
             }
-            if(IsItCheck(Opponent(CurrentPlayer)))
+        Piece p = Board.Piece(destiny);
+
+        // #jogadaespecial promocao
+        if (p is Pawn)
+        {
+            if ((p.Color == Color.White && destiny.Line == 0) || (p.Color == Color.Black && destiny.Line == 7))
+            {
+                p = Board.RemovePiece(destiny);
+                Pieces.Remove(p);
+                Piece Queen = new Queen(Board, p.Color);
+                Board.MovePiece(Queen, destiny);
+                Pieces.Add(Queen);
+            }
+        }
+        if (IsItCheck(Opponent(CurrentPlayer)))
             {
                 Check = true;
             }
             else
             {
                 Check = false;
+            }
+            if (CheckmateTest(Opponent(CurrentPlayer)))
+            {
+                Finished = true;
             }
             Turn++;
             PlayerChanges();
@@ -89,7 +184,7 @@ namespace Chess
 
         public void ValidateDestinyPosition(Position origin, Position destiny)
         {
-            if (!Board.Piece(origin).CanMoveTo(destiny))
+            if (!Board.Piece(origin).PossibleMoviment(destiny))
             {
                 throw new BoardException("Destination position invalid!");
             }
@@ -166,15 +261,46 @@ namespace Chess
                 bool[,] mat = x.PossibleMovements();
                 if(mat[k.Position.Line, k.Position.Column])
                 {
-                    return true;                }
-
+                    return true;               
+                }
             }
             return false;
         }
 
-        public void PutNewPiece(char coluna, int linha, Piece piece)
+        public bool CheckmateTest(Color color)
         {
-            Board.MovePiece(piece, new ChessPosition(coluna, linha).ToPosition());
+            if (!IsItCheck(color))
+            {
+                return false;
+            }
+            foreach(Piece x in PiecesInPlay(color))
+            {
+                bool[,] mat = x.PossibleMovements();
+                for(int i = 0;i < Board.Line; i++)
+                {
+                    for(int j = 0;j < Board.Column; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = x.Position;
+                            Position destiny = new Position(i, j);
+                            Piece capturedPiece = ExecuteTheMoviment(origin, destiny);
+                            bool checkTest = IsItCheck(color);
+                            UndoTheMovement(origin, destiny, capturedPiece);
+                            if (!checkTest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void PutNewPiece(char Column, int Line, Piece piece)
+        {
+            Board.MovePiece(piece, new ChessPosition(Column, Line).ToPosition());
             Pieces.Add(piece);
         }
 
