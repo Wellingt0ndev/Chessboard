@@ -1,6 +1,5 @@
 ﻿using Board;
 
-
 namespace Chess
 {
     public class ChessMatch
@@ -163,9 +162,22 @@ namespace Chess
             if (CheckmateTest(Opponent(CurrentPlayer)))
             {
                 Finished = true;
-            }
+            }else
+            {
             Turn++;
             PlayerChanges();
+            }
+            
+            // #jogadaespecial en passant
+            if(p is Pawn &&(destiny.Line == origin.Line -2 || destiny.Line == origin.Line + 2)) 
+            {
+                EnPassant = p;
+            }
+            else
+            {
+                EnPassant = null;
+            }
+
         }
 
         public void ValidateOriginPosition(Position position)

@@ -47,15 +47,15 @@ namespace Chess
                 // #Special move en passant
                 if (Position.Line == 3)
                 {
-                    Position esquerda = new Position(Position.Line, Position.Column - 1);
-                    if (Board.ValidPosition(esquerda) && CanMove(esquerda) && Board.Piece(esquerda) == match.EnPassant)
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && CanMove(left) && Board.Piece(left) == match.EnPassant)
                     {
-                        mat[esquerda.Line - 1, esquerda.Column] = true;
+                        mat[left.Line - 1, left.Column] = true;
                     }
-                    Position direita = new Position(Position.Line, Position.Column + 1);
-                    if (Board.ValidPosition(direita) && CanMove(direita) && Board.Piece(direita) == match.EnPassant)
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && CanMove(right) && Board.Piece(right) == match.EnPassant)
                     {
-                        mat[direita.Line - 1, direita.Column] = true;
+                        mat[right.Line - 1, right.Column] = true;
                     }
                 }
             }
@@ -86,15 +86,15 @@ namespace Chess
                 // #Special move en passant
                 if (Position.Line == 4)
                 {
-                    Position esquerda = new Position(Position.Line, Position.Column - 1);
-                    if (Board.ValidPosition(esquerda) && CanMove(esquerda) && Board.Piece(esquerda) == match.EnPassant)
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && CanMove(left) && Board.Piece(left) == match.EnPassant)
                     {
-                        mat[esquerda.Line + 1, esquerda.Column] = true;
+                        mat[left.Line + 1, left.Column] = true;
                     }
-                    Position direita = new Position(Position.Line, Position.Column + 1);
-                    if (Board.ValidPosition(direita) && CanMove(direita) && Board.Piece(direita) == match.EnPassant)
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && CanMove(right) && Board.Piece(right) == match.EnPassant)
                     {
-                        mat[direita.Line + 1, direita.Column] = true;
+                        mat[right.Line + 1, right.Column] = true;
                     }
                 }
             }
