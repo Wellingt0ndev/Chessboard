@@ -18,7 +18,7 @@ namespace Chess
 
             Position pos = new Position(0, 0);
 
-            // north
+            // northwest
             pos.SetValues(Position.Line - 1, Position.Column - 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
@@ -30,7 +30,7 @@ namespace Chess
                 pos.SetValues(pos.Line - 1, pos.Column - 1);
             }
 
-            // NE
+            // North East
             pos.SetValues(Position.Line - 1, Position.Column + 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
@@ -42,7 +42,7 @@ namespace Chess
                 pos.SetValues(pos.Line - 1, pos.Column + 1);
             }
 
-            // SE
+            // southeast
             pos.SetValues(Position.Line + 1, Position.Column + 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {
@@ -54,7 +54,7 @@ namespace Chess
                 pos.SetValues(pos.Line + 1, pos.Column + 1);
             }
 
-            // SO
+            // south-west
             pos.SetValues(Position.Line + 1, Position.Column - 1);
             while (Board.ValidPosition(pos) && CanMove(pos))
             {

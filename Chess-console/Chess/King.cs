@@ -20,7 +20,7 @@ namespace Chess
             return "K";
         }
 
-        private bool testeTorreParaRoque(Position pos)
+        private bool TowerTestForCastle(Position pos)
         {
             Piece p = Board.Piece(pos);
             return p != null && p is Rook && p.Color == Color && p.NumberOfMovements == 0;
@@ -51,7 +51,7 @@ namespace Chess
             {
                 mat[pos.Line, pos.Column] = true;
             }
-            // se
+            // southeast
             pos.SetValues(Position.Line + 1, Position.Column + 1);
             if (Board.ValidPosition(pos) && CanMove(pos))
             {
@@ -63,7 +63,7 @@ namespace Chess
             {
                 mat[pos.Line, pos.Column] = true;
             }
-            // so
+            // south-west
             pos.SetValues(Position.Line + 1, Position.Column - 1);
             if (Board.ValidPosition(pos) && CanMove(pos))
             {
@@ -75,7 +75,7 @@ namespace Chess
             {
                 mat[pos.Line, pos.Column] = true;
             }
-            // north
+            // northwest
             pos.SetValues(Position.Line - 1, Position.Column - 1);
             if (Board.ValidPosition(pos) && CanMove(pos))
             {
@@ -86,8 +86,8 @@ namespace Chess
             if (NumberOfMovements == 0 && !match.Check)
             {
                 // #Special move Castle Kingside
-                Position posT1 = new Position(Position.Line, Position.Column + 3);
-                if (testeTorreParaRoque(posT1))
+                Position posRook1 = new Position(Position.Line, Position.Column + 3);
+                if (TowerTestForCastle(posRook1))
                 {
                     Position p1 = new Position(Position.Line, Position.Column + 1);
                     Position p2 = new Position(Position.Line, Position.Column + 2);
@@ -97,8 +97,8 @@ namespace Chess
                     }
                 }
                 // #Special move Castle Queenside
-                Position posT2 = new Position(Position.Line, Position.Column - 4);
-                if (testeTorreParaRoque(posT2))
+                Position posRook2 = new Position(Position.Line, Position.Column - 4);
+                if (TowerTestForCastle(posRook2))
                 {
                     Position p1 = new Position(Position.Line, Position.Column - 1);
                     Position p2 = new Position(Position.Line, Position.Column - 2);

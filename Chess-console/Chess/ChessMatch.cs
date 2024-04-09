@@ -89,6 +89,7 @@ namespace Chess
                 Captured.Remove(capturedPiece);
             }
             Board.MovePiece(p, destiny);
+            // #Special move Castle Kingside
             if (p is King && destiny.Column == origin.Column + 2)
             {
                 Position originT = new Position(origin.Line, origin.Column + 3);
@@ -98,7 +99,7 @@ namespace Chess
                 Board.MovePiece(T, originT);
             }
 
-            // #jogadaespecial roque grande
+            // #Special move Castle Queenside
             if (p is King && destiny.Column == origin.Column - 2)
             {
                 Position originT = new Position(origin.Line, origin.Column - 4);
