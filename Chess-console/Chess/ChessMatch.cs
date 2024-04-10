@@ -32,7 +32,7 @@ namespace Chess
             Piece p = Board.RemovePiece(origin);
             p.IncreaseMovements();
             Piece capturedPiece =  Board.RemovePiece(destiny);
-            Board.MovePiece(p, destiny);
+            Board.InsertPiece(p, destiny);
             if(capturedPiece != null)
             {
                 Captured.Add(capturedPiece);
@@ -44,7 +44,7 @@ namespace Chess
                 Position destinyT = new Position(origin.Line, origin.Column + 1);
                 Piece T = Board.RemovePiece(originT);
                 T.IncreaseMovements();
-                Board.MovePiece(T, destinyT);
+                Board.InsertPiece(T, destinyT);
             }
 
             // #Special move Castle Queenside
@@ -54,7 +54,7 @@ namespace Chess
                 Position destinyT = new Position(origin.Line, origin.Column - 1);
                 Piece T = Board.RemovePiece(originT);
                 T.IncreaseMovements();
-                Board.MovePiece(T, destinyT);
+                Board.InsertPiece(T, destinyT);
             }
 
             // #Special move en passant
@@ -84,10 +84,10 @@ namespace Chess
             p.DecreaseMovements();
             if(capturedPiece != null)
             {
-                Board.MovePiece(capturedPiece, destiny);
+                Board.InsertPiece(capturedPiece, destiny);
                 Captured.Remove(capturedPiece);
             }
-            Board.MovePiece(p, destiny);
+            Board.InsertPiece(p, destiny);
             // #Special move Castle Kingside
             if (p is King && destiny.Column == origin.Column + 2)
             {
@@ -95,7 +95,7 @@ namespace Chess
                 Position destinyT = new Position(origin.Line, origin.Column + 1);
                 Piece T = Board.RemovePiece(destinyT);
                 T.DecreaseMovements();
-                Board.MovePiece(T, originT);
+                Board.InsertPiece(T, originT);
             }
 
             // #Special move Castle Queenside
@@ -105,7 +105,7 @@ namespace Chess
                 Position destinyT = new Position(origin.Line, origin.Column - 1);
                 Piece T = Board.RemovePiece(destinyT);
                 T.DecreaseMovements();
-                Board.MovePiece(T, originT);
+                Board.InsertPiece(T, originT);
             }
 
             // #jogadaespecial en passant
@@ -123,7 +123,7 @@ namespace Chess
                     {
                         posP = new Position(4, destiny.Column);
                     }
-                    Board.MovePiece(Pawn, posP);
+                    Board.InsertPiece(Pawn, posP);
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace Chess
                 p = Board.RemovePiece(destiny);
                 Pieces.Remove(p);
                 Piece Queen = new Queen(Board, p.Color);
-                Board.MovePiece(Queen, destiny);
+                Board.InsertPiece(Queen, destiny);
                 Pieces.Add(Queen);
             }
         }
@@ -162,7 +162,8 @@ namespace Chess
             if (CheckmateTest(Opponent(CurrentPlayer)))
             {
                 Finished = true;
-            }else
+            }
+            else
             {
             Turn++;
             PlayerChanges();
@@ -313,7 +314,7 @@ namespace Chess
 
         public void PutNewPiece(char Column, int Line, Piece piece)
         {
-            Board.MovePiece(piece, new ChessPosition(Column, Line).ToPosition());
+            Board.InsertPiece(piece, new ChessPosition(Column, Line).ToPosition());
             Pieces.Add(piece);
         }
 

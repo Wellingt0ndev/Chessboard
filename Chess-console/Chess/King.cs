@@ -1,6 +1,4 @@
 ﻿using Board;
-using System.Runtime.ConstrainedExecution;
-
 
 namespace Chess
 {
@@ -12,13 +10,12 @@ namespace Chess
         public King(Chessboard board, Color color, ChessMatch match) : base(board, color)
         {
             this.match = match;
-        }
-        
+        }        
 
         public override string ToString()
         {
             return "K";
-        }
+        }        
 
         private bool TowerTestForCastle(Position pos)
         {

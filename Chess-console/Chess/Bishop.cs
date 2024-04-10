@@ -12,6 +12,7 @@ namespace Chess
         {
             return "B";
         }
+        
         public override bool[,] PossibleMovements()
         {
             bool[,] mat = new bool[Board.Line, Board.Column];

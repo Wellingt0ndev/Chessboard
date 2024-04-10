@@ -3,7 +3,7 @@ using Board;
 
 namespace Chess_console
 {
-    internal class Program
+     class Program
     {
         static void Main(string[] args)
         {
@@ -25,10 +25,10 @@ namespace Chess_console
                         Console.Clear();
                         Screen.PrintChessBoard(match.Board, possiblePosition);
 
+                        Console.WriteLine();
                         Console.Write("Destiny: ");
                         Position destiny = Screen.ReadChessPosition().ToPosition();
                         match.ValidateDestinyPosition(origin, destiny);
-
 
                         match.MakePlay(origin, destiny);
                     }
@@ -37,12 +37,15 @@ namespace Chess_console
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
-                }
+                }  
+                Console.Clear() ;
+                Screen.PrintMatch(match);
             }
             catch (BoardException e)
             {
                 Console.WriteLine(e.Message);
             }
+            Console.ReadLine() ;
         }
     }
 }

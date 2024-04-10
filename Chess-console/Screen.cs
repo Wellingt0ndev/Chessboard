@@ -1,6 +1,5 @@
 ﻿using Board;
 using Chess;
-using System.Text.RegularExpressions;
 
 namespace Chess_console
 {
@@ -17,11 +16,11 @@ namespace Chess_console
             {
                 Console.WriteLine("Waiting for a move: " + match.CurrentPlayer);
                 if (match.Check)
-                    Console.WriteLine("Check");
+                    Console.WriteLine("Check!");
             }
             else
             {
-                Console.WriteLine("Checkmate");
+                Console.WriteLine("Checkmate!");
                 Console.WriteLine("Winner: " + match.CurrentPlayer);
             }            
         }

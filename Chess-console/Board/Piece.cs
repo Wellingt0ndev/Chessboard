@@ -17,6 +17,12 @@ namespace Board
             NumberOfMovements = 0;
         }
 
+        public bool CanMove(Position pos)
+        {
+            Piece p = Board.Piece(pos);
+            return p == null || p.Color != Color;
+        }
+
         public void IncreaseMovements()
         {
             NumberOfMovements++;
@@ -41,12 +47,7 @@ namespace Board
                 }
             }
             return false;
-        }
-        public bool CanMove(Position position)
-        {
-            Piece p = Board.Piece(position);
-            return p == null || p.Color != Color;
-        }
+        }       
 
         public bool PossibleMoviment(Position position)
         {

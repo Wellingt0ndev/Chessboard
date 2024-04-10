@@ -30,7 +30,7 @@ namespace Board
             return Piece(pos) != null;
         }
 
-        public void MovePiece(Piece piece, Position position)
+        public void InsertPiece(Piece piece, Position position)
         {
             if (IsTherePiece(position))
             {
